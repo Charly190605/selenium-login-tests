@@ -1,17 +1,34 @@
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginTest {
 
     @Test
-    void abrirNavegador() {
+    void loginCorrecto() {
 
         WebDriver driver = new ChromeDriver();
 
-        driver.get("https://www.google.com");
+        driver.get("https://the-internet.herokuapp.com/login");
 
-        System.out.println("Título: " + driver.getTitle());
+        driver.findElement(By.id("username"))
+                .sendKeys("tomsmith");
+
+        driver.findElement(By.id("password"))
+                .sendKeys("SuperSecretPassword!");
+
+        driver.findElement(By.cssSelector("button[type='submit']"))
+                .click();
+
+        String mensaje = driver.findElement(By.id("flash")).getText();
+
+        assertEquals(
+                "You logged into a secure area!\n×",
+                mensaje
+        );
 
         driver.quit();
     }
