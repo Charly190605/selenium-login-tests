@@ -32,4 +32,30 @@ public class LoginTest {
 
         driver.quit();
     }
+
+    @Test
+    void loginContrasenaIncorrecta() {
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/login");
+
+        driver.findElement(By.id("username"))
+                .sendKeys("tomsmith");
+
+        driver.findElement(By.id("password"))
+                .sendKeys("contraseñaIncorrecta");
+
+        driver.findElement(By.cssSelector("button[type='submit']"))
+                .click();
+
+        String mensaje = driver.findElement(By.id("flash")).getText();
+
+        assertEquals(
+                "Your password is invalid!\n×",
+                mensaje
+        );
+
+        driver.quit();
+    }
 }
